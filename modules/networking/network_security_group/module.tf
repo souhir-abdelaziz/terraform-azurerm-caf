@@ -16,12 +16,12 @@ resource "azurerm_network_security_group" "nsg" {
 
   security_rule = can(var.settings.nsg) == false ? [] : [
     for value in var.settings.nsg : {
-      name                         = value.name
+      name                         = lookup(value, "name", "")
       description                  = lookup(value, "description", "")
-      priority                     = value.priority
-      direction                    = value.direction
-      access                       = value.access
-      protocol                     = value.protocol
+      priority                     = lookup(value, "priority", null)
+      direction                    = lookup(value, "direction", "")
+      access                       = lookup(value, "access", "")
+      protocol                     = lookup(value, "protocol", "")
       source_port_range            = lookup(value, "source_port_range", "")
       source_port_ranges           = lookup(value, "source_port_ranges", [])
       destination_port_range       = lookup(value, "destination_port_range", "")
